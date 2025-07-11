@@ -1,10 +1,5 @@
-import { readable, type Readable } from "svelte/store";
+import shard from "./index";
 
-import { StateShard } from "poc-global-state";
-
-const state = new StateShard(
-  Symbol.for("state-a"),
-  readable("Initial state A")
-);
+const state = shard.get();
 
 export default state;

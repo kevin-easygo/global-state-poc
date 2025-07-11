@@ -262,6 +262,9 @@ importers:
       poc-global-state:
         specifier: 'workspace:'
         version: link:../poc-global-state
+      poc-state-b:
+        specifier: 'workspace:'
+        version: link:../poc-state-b
       poc-typescript:
         specifier: 'workspace:'
         version: link:../poc-typescript
@@ -295,6 +298,9 @@ importers:
       poc-global-state:
         specifier: 'workspace:'
         version: link:../poc-global-state
+      poc-state-a:
+        specifier: 'workspace:'
+        version: link:../poc-state-a
       poc-typescript:
         specifier: 'workspace:'
         version: link:../poc-typescript

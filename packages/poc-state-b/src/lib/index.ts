@@ -1,4 +1,9 @@
-export * from "./state.js";
+import { writable } from "svelte/store";
+import { StateShard } from "poc-global-state";
 
-import Test from "../components/Test.svelte";
-export { Test };
+const state = new StateShard(
+  Symbol.for("state-b"),
+  writable("Initial state B")
+);
+
+export default state;
