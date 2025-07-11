@@ -19,22 +19,22 @@ export class StateShard<Store extends Readable<any> | Writable<any>> {
   }
 
   get() {
+    return getStore<typeof this.store>(this.key) || undefined;
+  }
+
+  init() {
     if (this.dependsOn) {
       for (const dep of this.dependsOn) {
         const depStore = getStore(dep);
 
         if (!depStore) {
           throw new Error(
-            `Dependency store with key ${String(dep)} not found.`
+            `Dependency store with key ${String(dep)} not found or not initialized.`
           );
         }
       }
     }
 
-    return getStore<typeof this.store>(this.key) || undefined;
-  }
-
-  init() {
     setStore(this.key, this.store);
   }
 }

@@ -1,11 +1,6 @@
-import { createGlobalStateMap } from "poc-global-state";
-import stateA from "poc-state-a";
-import stateB from "poc-state-b";
 import type { ClientInit } from "@sveltejs/kit";
+import initStores from "$lib/init-stores";
 
 export const init: ClientInit = async () => {
-  globalThis.globalState = createGlobalStateMap();
-
-  stateA.init();
-  stateB.init();
+  initStores();
 };
