@@ -22,11 +22,14 @@ coverage
 .vercel
 
 # Build Outputs
-.next/
-out/
+.next
+out
+.output
+.netlify
+.wrangler
+.svelte-kit
 build
 dist
-
 
 # Debug
 npm-debug.log*
@@ -36,3 +39,9 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# VS Code
+.vscode
+
+# ESLint
+.eslintcache

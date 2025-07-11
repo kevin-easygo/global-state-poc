@@ -1,0 +1,36 @@
+{
+  "name": "poc-prettier",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./dist/base.js",
+    "./svelte": "./dist/svelte.js",
+    "./tailwind": "./dist/tailwind.js"
+  },
+  "scripts": {
+    "dev": "tsc --watch --project tsconfig.build.json",
+    "lint": "eslint --cache .",
+    "lint:fix": "eslint --fix --cache .",
+    "lint:ci": "eslint --cache --cache-strategy content --cache-location ~/.cache/eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build": "pnpm clean && tsc --project tsconfig.build.json",
+    "clean": "rimraf dist/"
+  },
+  "devDependencies": {
+    "poc-typescript": "workspace:*",
+    "poc-eslint": "workspace:*",
+    "rimraf": "catalog:"
+  },
+  "peerDependencies": {
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "prettier-plugin-svelte": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "prettier-plugin-svelte": {
+      "optional": true
+    }
+  }
+}

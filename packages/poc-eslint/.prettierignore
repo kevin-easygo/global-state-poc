@@ -1,0 +1,59 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+.netrc
+
+# Testing
+coverage
+
+# Turbo
+.turbo
+
+# VS Code
+.vscode
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build/
+dist/
+.output
+.vercel
+.netlify
+.wrangler
+.svelte-kit/
+storybook-static/
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Storybook
+*storybook.log
+chromatic.log
+chromatic-build-*.xml
+chromatic-diagnostics.json
+
+# Cache
+.cache
+.eslintcache

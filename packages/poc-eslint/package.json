@@ -1,0 +1,58 @@
+{
+  "name": "poc-eslint",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "author": {
+    "email": "design-system@easygo.io",
+    "name": "Easygo Design System",
+    "url": "https://easygo.io"
+  },
+  "exports": {
+    "./base": "./src/base.ts",
+    "./typescript": "./src/typescript.ts",
+    "./svelte": "./src/svelte.ts"
+  },
+  "publishConfig": {
+    "./base": "./dist/base.js",
+    "./typescript": "./dist/typescript.js",
+    "./svelte": "./dist/svelte.js"
+  },
+  "scripts": {
+    "dev": "tsc --watch --project tsconfig.build.json",
+    "lint": "eslint --cache .",
+    "lint:fix": "eslint --fix --cache .",
+    "lint:ci": "eslint --cache --cache-strategy content --cache-location ~/.cache/eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build": "pnpm clean && tsc --project tsconfig.build.json",
+    "clean": "rimraf dist/"
+  },
+  "dependencies": {
+    "@eslint/js": "catalog:",
+    "@eslint/compat": "catalog:",
+    "eslint-plugin-jsdoc": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-import-resolver-typescript": "catalog:",
+    "eslint-plugin-import-x": "catalog:",
+    "typescript-eslint": "catalog:",
+    "globals": "catalog:"
+  },
+  "devDependencies": {
+    "poc-typescript": "workspace:*",
+    "rimraf": "catalog:"
+  },
+  "peerDependencies": {
+    "eslint": "catalog:",
+    "eslint-plugin-svelte": "catalog:",
+    "svelte-eslint-parser": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "eslint-plugin-svelte": {
+      "optional": true
+    },
+    "svelte-eslint-parser": {
+      "optional": true
+    }
+  }
+}
