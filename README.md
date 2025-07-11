@@ -1,135 +1,31 @@
-# Turborepo starter
+## Who dis?
 
-This Turborepo starter is maintained by the Turborepo core team.
+The purpose of this package is to illustrate how to split global state into multiple shards that can be defined within a package and then initialized within any application. The main goal here is to come up with a solution that allows teams to own their own logic when it comes to shards of global state, but at the same time allow other teams or other package maintainers to access that state, and to clearly define what the dependencies of each shard are.
 
-## Using this example
+## What do I look at?
 
-Run the following command:
+The setup of the monorepo is quite simple. Its components are:
 
-```sh
-npx create-turbo@latest
-```
+### The `stake-dk` app
 
-## What's inside?
+A simple SvelteKit app with two main pages.
 
-This Turborepo includes the following packages/apps:
+The index page at `/` renders values from shards of global state that are in different packages.
 
-### Apps and Packages
+The broken page at `/broken` throws an error as the shard we are trying to access depends on another shard that has not been initialized yet. Although this behaviour would normally trigger a server-side error too, for sake of clarity I have set up the app so that the error is only thrown at the client level.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+If you take a look at `hooks.server.ts`, `hooks.client.ts` and `init-stores.ts`, you can see how each shard is imported from a package, initialized and inserted into a global state map that holds each state's unique symbol as a key and its class instance as a value.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+If you take a look at either page, you can also see how the shards are consumed via the `/state` exports of each state package, and how you can manipulate writable states from any context where the shard is initialized.
 
-### Utilities
+### The `poc-global-state` package
 
-This Turborepo has some additional tools already setup for you:
+This package provides utilities to create and interact with shards, as well as an override of the `globalThis` object to correctly type the global state map.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+The `shard.ts` file also contains the logic that checks for the availability of a shard's dependencies and throws an error should they not be available.
 
-### Build
+### The `poc-state` packages
 
-To build all apps and packages, run the following command:
+These are very simple packages that contain shards of global state and, in some case, components that consume the global state.
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+The shard defined in `poc-state-d` has a dependency on the shard defined in `poc-state-c`, which is why the application throws if you visit the broken page.
